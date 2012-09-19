@@ -207,6 +207,47 @@ module BancBox
       get_response(:post, 'collectFunds', data)
     end
 
+
+    # Link Payee
+    #
+    # @return [Hash] The data returned from the request.
+    # @param options [Hash] A customizable set of options.
+    # @option options [BancBox::Id] :destination_account_id The account to fund.
+    # @option options [Array<BancBox::DebitItem>] :debit_items The debits.
+    # @option options [Hash] :source The source of the funds.
+    # @option options[source] [BancBox::Id] :linked_external_account_id
+    # @option options[source] [BancBox::Id] :banc_box_account_id
+    # @option options[source] [BancBox::BankAccount, BancBox::CreditCardAccount] :external_account
+    def link_payee(options)
+      data = {
+        :clientId => options[:client_id].to_hash,
+        :referenceId => options[:reference_id],
+        :title => options[:title],
+        :payeeAccountNumber => options[:payeeAccountNumber],
+        :payee => {
+          :ach => options[:payee_account].to_hash
+        }
+      }
+
+      get_response(:post, 'link_payee', data)
+    end
+
+
+
+    def send_funds(options)
+      data = {
+        :method => options[:method],
+        :items => options[:debit_items].map { |i| i.to_hash },
+        :sourceAccount => options[:source_account].to_hash,
+        :destination => {
+          :payeeAccountNumber => options[:payeeAccountNumber]          
+        },
+        :memo => options[:memo]
+      }
+      
+      get_response(:post, 'sendFunds', data)
+    end
+
     # Open an account
     #
     # @see http://www.bancbox.com/api/view/29
@@ -248,9 +289,6 @@ module BancBox
       }
       get_response(:post, 'transferFunds', data)
     end
-
-
-
 
     def formatted_time(time)
       time && time.strftime('%Y-%m-%dT%H:%M:%S')
