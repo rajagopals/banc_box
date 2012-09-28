@@ -207,40 +207,37 @@ module BancBox
       get_response(:post, 'collectFunds', data)
     end
 
-
-    # Link Payee
-    #
-    # @return [Hash] The data returned from the request.
-    # @param options [Hash] A customizable set of options.
-    # @option options [BancBox::Id] :destination_account_id The account to fund.
-    # @option options [Array<BancBox::DebitItem>] :debit_items The debits.
-    # @option options [Hash] :source The source of the funds.
-    # @option options[source] [BancBox::Id] :linked_external_account_id
-    # @option options[source] [BancBox::Id] :banc_box_account_id
-    # @option options[source] [BancBox::BankAccount, BancBox::CreditCardAccount] :external_account
+    # Link Payee to a client
     def link_payee(options)
       data = {
         :clientId => options[:client_id].to_hash,
         :referenceId => options[:reference_id],
-        :title => options[:title],
-        :payeeAccountNumber => options[:payeeAccountNumber],
+        :payeeAccountNumber => options[:payee_account_number],
         :payee => {
           :ach => options[:payee_account].to_hash
         }
       }
-
-      get_response(:post, 'link_payee', data)
+      
+      get_response(:post, 'linkPayee', data)
     end
 
+    # Cancel schedules
+    def cancel_schedules(options)
+      data = {
+        :scheduleIds => options[:schedules].map { |i| i.to_hash },
+      }
+      
+      get_response(:post,'cancelSchedules', data)
+    end
 
-
+    # Send funds to Linked Payee
     def send_funds(options)
       data = {
         :method => options[:method],
         :items => options[:debit_items].map { |i| i.to_hash },
         :sourceAccount => options[:source_account].to_hash,
-        :destination => {
-          :payeeAccountNumber => options[:payeeAccountNumber]          
+        :destinationAccount => {
+          :linkedPayeeId => options[:linked_payee_id].to_hash
         },
         :memo => options[:memo]
       }

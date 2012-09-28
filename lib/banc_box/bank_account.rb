@@ -26,7 +26,7 @@ module BancBox
     # @return [Hash] The data hash
     def to_hash
       {
-        :routingNumber => @track_data,
+        :routingNumber => @routing_number,
         :accountNumber => @account_number,
         :holderName => @holder_name,
         :bankAccountType => @type
