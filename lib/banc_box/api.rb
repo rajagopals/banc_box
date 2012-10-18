@@ -85,14 +85,10 @@ module BancBox
         :clientId => client_id.to_hash,
         :firstName => options[:first_name],
         :lastName => options[:last_name],
-        :middleInitial => options[:middle_initial],
         :ssn => options[:ssn],
         :dob => formatted_date(options[:dob]),
         :homePhone => options[:home_phone],
-        :mobilePhone => options[:mobile_phone],
-        :workPhone => options[:work_phone],
-        :email => options[:email],
-        :username => options[:username]
+        :email => options[:email]
       }
       if options[:address]
         data[:address] = options[:address].to_hash

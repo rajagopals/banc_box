@@ -36,7 +36,7 @@ module BancBox
           'apiKey' => BancBox::Config.api_key,
           'secret' => BancBox::Config.api_secret
         },
-        'subscriberId' => BancBox::Config.subscriber_id
+        'subscriberId' => BancBox::Config.subscriber_id.to_i
       }
     end
 
