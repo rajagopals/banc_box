@@ -216,7 +216,19 @@ module BancBox
       
       get_response(:post, 'linkPayee', data)
     end
-
+    
+    # Link external account
+    def link_external_account(options)
+      data = {
+        :clientId => options[:client_id].to_hash,
+        :referenceId => options[:reference_id],
+        :account => {
+          :bankAccount => options[:external_account].to_hash
+        }
+      }
+      get_response(:post,'linkExternalAccount', data)
+    end
+      
     # Cancel schedules
     def cancel_schedules(options)
       data = {
