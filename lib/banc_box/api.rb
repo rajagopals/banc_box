@@ -226,6 +226,14 @@ module BancBox
       }
       get_response(:post,'linkExternalAccount', data)
     end
+    
+    # Delete Linked external account
+    def delete_linked_external_account(options)
+      data = {
+        :linkedExternalAccountId => options[:linked_external_account_id].to_hash
+      }
+      get_response(:post,'deleteLinkedExternalAccount', data)
+    end
       
     # Cancel schedules
     def cancel_schedules(options)
