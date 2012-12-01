@@ -300,7 +300,18 @@ module BancBox
       }
       get_response(:post, 'transferFunds', data)
     end
-
+    
+    # Get Schedules
+    #
+    def get_schedules(options)
+      data = {
+        :accountId => options[:account_id].to_hash,
+        :modifiedOnStartDate => options[:modified_on_start_date].to_hash,
+        :modifiedOnEndDate => options[:modified_on_end_date].to_hash
+      }
+      get_response(:post, 'getSchedules', data)
+    end
+    
     def formatted_time(time)
       time && time.strftime('%Y-%m-%dT%H:%M:%S')
     end
