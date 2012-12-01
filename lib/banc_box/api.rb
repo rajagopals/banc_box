@@ -306,8 +306,8 @@ module BancBox
     def get_schedules(options)
       data = {
         :accountId => options[:account_id].to_hash,
-        :modifiedOnStartDate => options[:modified_on_start_date].to_hash,
-        :modifiedOnEndDate => options[:modified_on_end_date].to_hash
+        :modifiedOnStartDate => formatted_time(options[:modified_on_start_date]),
+        :modifiedOnEndDate => formatted_time(options[:modified_on_end_date])
       }
       get_response(:post, 'getSchedules', data)
     end
