@@ -212,7 +212,11 @@ module BancBox
         }
       }
       
-      get_response(:post, 'linkPayee', data)
+      response = get_response(:post, 'linkPayee', data)
+      if response['id'] == nil || response['id']['subscriberReferenceId'] == nil || response['id']['subscriberReferenceId'] != options[:reference_id]
+        raise BancBox::Error.new(response['message'])
+      end
+      response
     end
     
     # Link external account
@@ -224,7 +228,11 @@ module BancBox
           :bankAccount => options[:external_account].to_hash
         }
       }
-      get_response(:post,'linkExternalAccount', data)
+      response = get_response(:post,'linkExternalAccount', data)
+      if response['id'] == nil || response['id']['subscriberReferenceId'] == nil || response['id']['subscriberReferenceId'] != options[:reference_id]
+        raise BancBox::Error.new(response['message'])
+      end
+      response
     end
     
     # Delete Linked external account
